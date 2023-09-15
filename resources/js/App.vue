@@ -2,7 +2,6 @@
   <div id="app">
     <header>
       <router-link to="/">Home</router-link>
-      <router-link to="/companies">Company</router-link>
     </header>
 
     <main>
