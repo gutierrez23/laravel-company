@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('companies')->controller(CompanyController::class)->group(function(){
+    Route::get('/', [CompanyController::class, 'get']);
+    Route::get('/{company}', [CompanyController::class, 'show']);
+    Route::post('/', [CompanyController::class, 'store']);
+});
+
+Route::prefix('employee')->controller(CompanyController::class)->group(function(){
+    Route::get('/', [EmployeeController::class, 'get']);
+    Route::post('/', [EmployeeController::class, 'store']);
 });

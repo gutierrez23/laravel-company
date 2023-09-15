@@ -13,14 +13,19 @@ class CompanyController extends Controller
 {
     use InteractsWithHttpResponse;
 
-    public function index()
+    public function get()
     {
         try {
-            $companies = Company::paginate(request()->input('limit', 10));
+            $companies = Company::get();
             return CompanyResource::collection($companies);
         } catch (\Exception $e) {
             return $this->error($e->getMessage()); 
         }
+    }
+
+    public function show(Company $company)
+    {
+        return CompanyResource::make($company);
     }
     
     public function store(StoreCompanyRequest $request)

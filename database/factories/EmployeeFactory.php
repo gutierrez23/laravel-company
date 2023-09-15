@@ -18,7 +18,6 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'company_id' => Company::factory()->create(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),

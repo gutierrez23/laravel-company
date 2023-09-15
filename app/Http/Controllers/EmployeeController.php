@@ -4,63 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use App\Traits\InteractsWithHttpResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    use InteractsWithHttpResponse;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function get()
     {
-        //
+        try {
+            $companies = Employee::get();
+            return EmployeeResource::collection($companies);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage()); 
+        }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(StoreEmployeeRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Employee $employee)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Employee $employee)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Employee $employee)
-    {
-        //
+        try {
+            $employee = Employee::create($request->safe()->all());
+            return response()->json([
+                'code' => Response::HTTP_OK,
+                'data' => EmployeeResource::make($employee)
+            ]);
+        } catch (\Exception $e) {
+           return $this->error($e->getMessage());
+        }
     }
 }

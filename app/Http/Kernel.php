@@ -3,9 +3,17 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Application;
+use Illuminate\Routing\Router;
 
 class Kernel extends HttpKernel
 {
+
+    public function __construct(Application $app, Router $router)
+    {
+        parent::__construct($app, $router);
+        $this->prependMiddlewareToGroup('api',\App\Http\Middleware\JsonMiddleware::class);
+    }
     /**
      * The application's global HTTP middleware stack.
      *

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <header>
-      <router-link to="/">Companies</router-link>
-      <router-link to="/employees">Employees</router-link>
+      <router-link to="/">Home</router-link>
+      <router-link to="/companies">Company</router-link>
     </header>
 
     <main>

@@ -11,7 +11,7 @@ class Company extends Model
 
     protected $guarded = ['id', 'created_at'];
 
-    // public function employee(){
-    //     return $this->hasMany(Employee::class);
-    // }
+    public function employees(){
+        return $this->hasMany(Employee::class);
+    }
 }
