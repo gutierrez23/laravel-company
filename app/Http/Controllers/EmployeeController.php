@@ -16,7 +16,7 @@ class EmployeeController extends Controller
     public function get()
     {
         try {
-            $companies = Employee::get();
+            $companies = Employee::whereNull('company_id')->get();
             return EmployeeResource::collection($companies);
         } catch (\Exception $e) {
             return $this->error($e->getMessage()); 

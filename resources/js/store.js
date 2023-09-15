@@ -23,7 +23,7 @@ export default createStore({
   },
   actions: {
     async fetchAutocompleteResults({ commit }, query) {
-      axios.get('/api/companies')
+      axios.get('/api/companies?query='+query.target.value)
         .then((response) => {
           commit('setAutocompleteResults', response.data.data);
         })

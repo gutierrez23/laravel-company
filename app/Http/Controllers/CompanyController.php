@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\CompanyFilter;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
@@ -13,10 +14,10 @@ class CompanyController extends Controller
 {
     use InteractsWithHttpResponse;
 
-    public function get()
+    public function get(CompanyFilter $filter)
     {
         try {
-            $companies = Company::get();
+            $companies = Company::filter($filter)->get();
             return CompanyResource::collection($companies);
         } catch (\Exception $e) {
             return $this->error($e->getMessage()); 
