@@ -5,7 +5,6 @@ export default createStore({
     autocompleteResults: [], 
     company: {},
     employees: [],
-    hired: [],
   },
   mutations: {
     setAutocompleteResults(state, results) {
@@ -18,18 +17,36 @@ export default createStore({
       state.employees = employees;
     },
     moveEmployeeToHired(state, employeeId) {
-      console.log(employeeId);
+      const employeeIndex = state.employees.findIndex(x => x.id == employeeId);
+      if (employeeIndex !== -1) {
+        const employeeToMove = state.employees.splice(employeeIndex, 1)[0];
+        state.company.employees.push(employeeToMove);
+      }
     },
+    moveEmployeeToParticipants(state, employeeId) {
+      const employeeIndex = state.company.employees.findIndex(x => x.id == employeeId);
+      if (employeeIndex !== -1) {
+        const employeeToMove = state.company.employees.splice(employeeIndex, 1)[0];
+        state.employees.push(employeeToMove);
+      }
+    }
   },
   actions: {
     async fetchAutocompleteResults({ commit }, query) {
-      axios.get('/api/companies?query='+query.target.value)
-        .then((response) => {
-          commit('setAutocompleteResults', response.data.data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+      let queryString = query.target.value;
+
+      if(queryString.length){
+        axios.get('/api/companies?query='+queryString)
+          .then((response) => {
+            commit('setAutocompleteResults', response.data.data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }else{
+        commit('setAutocompleteResults', []);
+      }
+      
     },
     async fetchCompany({ commit }, companyId) {
       try {

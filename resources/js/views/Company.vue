@@ -7,21 +7,11 @@
       <div class="title">
         <h4>Hired</h4>
       </div>
-      <div
-        class="container"
-        @dragover.prevent
-        @drop="handleDrop('hired', $event)"
-        @dragenter="handleDragEnter($event)"
-        @dragleave="handleDragLeave($event)"
-      >
+      <div class="container" @dragover.prevent @drop="handleDrop('hired', $event)" @dragenter="handleDragEnter($event)"
+        @dragleave="handleDragLeave($event)">
         <!-- Render hired employees here -->
-        <div
-          class="employee"
-          v-for="employee in company.employees"
-          :key="employee.id"
-          @dragstart="handleDragStart(employee, 'hired', $event)"
-          draggable="true"
-        >
+        <div class="employee" v-for="employee in company.employees" :key="employee.id"
+          @dragstart="handleDragStart(employee, 'hired', $event)" draggable="true">
           {{ employee.name }}
         </div>
       </div>
@@ -30,23 +20,14 @@
       <div class="title">
         <h4>Participants</h4>
       </div>
-      <div
-        class="container"
-        @dragover.prevent
-        @drop="handleDrop('participants', $event)"
-      >
-      <!-- Render participants here -->
-        <div
-          class="employee"
-          v-for="employee in employees"
-          :key="employee.id"
-          @dragstart="handleDragStart(employee, 'participants', $event)"
-          draggable="true"
-        >
+      <div class="container" @dragover.prevent @drop="handleDrop('participants', $event)">
+        <!-- Render participants here -->
+        <div class="employee" v-for="employee in employees" :key="employee.id"
+          @dragstart="handleDragStart(employee, 'participants', $event)" draggable="true">
           {{ employee.name }}
-        
+
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </template>
@@ -68,7 +49,7 @@ export default {
   methods: {
     ...mapActions(['fetchCompany']),
     ...mapActions(['fetchEmployees']),
-    
+
     handleDragEnter(event) {
       event.preventDefault();
       event.target.classList.add('drag-over');
@@ -84,9 +65,8 @@ export default {
     },
     handleDrop(target, event) {
       event.preventDefault();
-      const employeeId  = event.dataTransfer.getData('employeeId');
-      const source      = event.dataTransfer.getData('source');
-      // Update the Vuex store based on the source and target containers
+      const employeeId = event.dataTransfer.getData('employeeId');
+      const source = event.dataTransfer.getData('source');
       if (source === 'participants' && target === 'hired') {
         // Move the employee from 'participants' to 'hired'
         this.$store.commit('moveEmployeeToHired', employeeId);
@@ -105,6 +85,11 @@ export default {
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
+}
+
+.hired, .participants{
+  width: 100%;
+  padding: 0 15px;
 }
 
 .container {

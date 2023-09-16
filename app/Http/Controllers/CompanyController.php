@@ -26,6 +26,7 @@ class CompanyController extends Controller
 
     public function show(Company $company)
     {
+        $company->load('employees');
         return CompanyResource::make($company);
     }
     
